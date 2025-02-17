@@ -96,3 +96,4 @@ select track.title, artist.name, album.title, genre.name from track
 join genre on track.genre_id = genre.id
 join album on track.album_id = album.id
 join artist on album.artist_id = artist.id;
+
