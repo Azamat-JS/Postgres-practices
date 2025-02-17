@@ -91,3 +91,8 @@ select album.title, album.artist_id, artist.id, artist.name from album inner joi
 select track.title, track.genre_id, genre.id, genre.name from track cross join genre;
 
 select track.title, genre.name from track join genre on track.genre_id = genre.id;
+
+select track.title, artist.name, album.title, genre.name from track
+join genre on track.genre_id = genre.id
+join album on track.album_id = album.id
+join artist on album.artist_id = artist.id;
