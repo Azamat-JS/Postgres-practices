@@ -20,8 +20,7 @@ create table post(
     content text,
     account_id integer references account(id) on delete cascade,
     created_at timestamptz not null default now(),
-    updated_at timestamptz not null default now(),
-    primary key(id)
+    updated_at timestamptz not null default now()
 );
 
 create table comment(
@@ -30,8 +29,7 @@ create table comment(
     account_id integer references account(id) on delete cascade,
     post_id integer references account(id) on delete cascade,
     created_at timestamptz not null default now(),
-    updated_at timestamptz not null default now(),
-    primary key(id)
+    updated_at timestamptz not null default now()
 );
 
 create table fav(
@@ -42,7 +40,6 @@ create table fav(
     created_at timestamptz not null default now(),
     updated_at timestamptz not null default now(),
     unique(post_id, account_id)
-    primary key(id)
 );
 ////////////////////////////////////////////////////////////
 
