@@ -5,7 +5,7 @@ import { IUpdateGroupDto } from "../dto/update_dto";
 
 
 export class GroupsManager {
- static async createGroup(req: Request, res: Response, next: NextFunction) {
+ static async createGroup(req: Request, res: Response, next: NextFunction):Promise<Response | void> {
     try {
       const { subject, days, time, teacher_name, teacher_phone } =
         req.body as IAddGroupDto;
@@ -16,7 +16,7 @@ export class GroupsManager {
         teacher_name,
         teacher_phone,
       });
-      res.status(201).json(newGroup);
+     return res.status(201).json(newGroup);
     } catch (error) {
       next(error);
     }
@@ -28,7 +28,7 @@ export class GroupsManager {
       if (!groups) {
         return next(res.status(404).json({ msg: "Groups not found" }));
       }
-      res.status(200).json(groups);
+     return res.status(200).json(groups);
     } catch (error) {
       next(error);
     }
@@ -40,7 +40,7 @@ export class GroupsManager {
       if (!group) {
         return next(res.status(404).json({ msg: "Group not found" }));
       }
-      res.status(200).json(group);
+     return res.status(200).json(group);
     } catch (error) {
       next(error);
     }
@@ -55,7 +55,7 @@ export class GroupsManager {
           return next(res.status(404).json({ msg: "Group not found" }));
         }
         group.update({ subject, days, time, teacher_name, teacher_phone })
-        res.status(200).json(group)
+       return res.status(200).json(group)
     } catch (error) {
         next(error)
     }
@@ -68,6 +68,7 @@ export class GroupsManager {
             return next(res.status(404).json({ msg: "Group not found" }));
           }
           await Group.destroy({where: {id: +req.params.id as number}})
+         return res.status(200).json({msg: "The group deleted successfully"})
     } catch (error) {
         
     }

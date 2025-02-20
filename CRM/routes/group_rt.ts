@@ -3,10 +3,10 @@ import { GroupsManager } from "../controller/group_ctr";
 const groupRouter:Router = Router()
 
 
-groupRouter.post('/', GroupsManager.createGroup)
-groupRouter.get('/', GroupsManager.getAllGroups)
-groupRouter.get('/:id', GroupsManager.getOneGroup)
-groupRouter.put('/:id', GroupsManager.updateGroup)
-groupRouter.delete('/:id', GroupsManager.deleteGroup)
+groupRouter.post('/', GroupsManager.createGroup as RequestHandler)
+groupRouter.get('/', GroupsManager.getAllGroups as RequestHandler)
+groupRouter.get('/:id', GroupsManager.getOneGroup as RequestHandler)
+groupRouter.put('/:id', GroupsManager.updateGroup as RequestHandler)
+groupRouter.delete('/:id', GroupsManager.deleteGroup as RequestHandler)
 
 export default groupRouter;

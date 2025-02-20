@@ -10,7 +10,7 @@ const addStudent = async (req:Request, res:Response, next:NextFunction):Promise<
         
         const student = await Student.create({student_name, student_phone, subject, parents_name, parents_phone})
         
-        res.status(201).json(student)
+       return res.status(201).json(student)
         
     } catch (error:any) {
         next(error)
@@ -23,7 +23,7 @@ try {
     if(!students){
         return next(res.status(404).json({msg: 'Students not found'}))
     }
-    res.status(200).json(students)
+   return res.status(200).json(students)
 } catch (error:any) {
     next(error)
 }
@@ -36,7 +36,7 @@ try {
     if(!student){
         return next(res.status(404).json({msg: 'Student not found'}))
     }
-    res.status(200).json(student)
+   return res.status(200).json(student)
 } catch (error:any) {
     next(error)
 }
@@ -50,7 +50,7 @@ try {
         return next(res.status(404).json({msg: 'Student not found'}))
     }
     student.update({student_name, student_phone, subject, parents_name, parents_phone})
-    res.status(200).json(student)
+   return res.status(200).json(student)
 } catch (error:any) {
     next(error)
 }
@@ -62,7 +62,7 @@ try {
         return next(res.status(404).json({msg: 'Student not found'}))
     }
       await Student.destroy({where: {id: +req.params.id as number}})
-    res.status(200).json({msg:"Student deleted successfully"})
+   return res.status(200).json({msg:"Student deleted successfully"})
 } catch (error:any) {
     next(error)
 }
