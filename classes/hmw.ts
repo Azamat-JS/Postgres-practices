@@ -387,29 +387,60 @@
 
 //----------------- 3
 
-class Product {
-    productName: string;
-    price: number;
-    category: string;
+// class Product {
+//     productName: string;
+//     price: number;
+//     category: string;
 
-    constructor(productName: string, price: number, category: string) {
-        this.productName = productName;
-        this.price = price;
-        this.category = category;
-    }
-}
+//     constructor(productName: string, price: number, category: string) {
+//         this.productName = productName;
+//         this.price = price;
+//         this.category = category;
+//     }
+// }
 
-class DiscountedProduct extends Product {
-    discount(percent: number): number {
-        return this.price * (1 - percent / 100);
-    }
-}
+// class DiscountedProduct extends Product {
+//     discount(percent: number): number {
+//         return this.price * (1 - percent / 100);
+//     }
+// }
 
-const product = new Product('apple', 20, 'fruit');
-const discountedProduct = new DiscountedProduct('banana', 12, 'fruit');
-const totalPrice = discountedProduct.discount(30);
-console.log(`Discounted Price: ${totalPrice}`);
+// const product = new Product('apple', 20, 'fruit');
+// const discountedProduct = new DiscountedProduct('banana', 12, 'fruit');
+// const totalPrice = discountedProduct.discount(30);
+// console.log(`Discounted Price: ${totalPrice}`);
 
 
+//----------- 4
 
+// abstract class Character {
+//    abstract attack(weapon:string):string;
+//    abstract defend(shield:string):string;
+// }
+
+// class Warrior extends Character {
+//     attack(weapon: string): string {
+//         return `Warrior is attacking with ${weapon} to the Mage`
+//     }
+//     defend(shield: string): string {
+//         return `Warrior defends himself by ${shield} from Mage`
+//     }
+// }
+
+// class Mage extends Character {
+//     attack(weapon: string): string {
+//         return `Mage attacks to the Warrior with ${weapon}`
+//     }
+//     defend(shield: string): string {
+//         return `Mage defends herself by ${shield}`
+//     }
+// }
+
+// const brave = new Warrior()
+// console.log(brave.attack('sword'));
+// console.log(brave.defend('iron shield'));
+
+// const witch = new Mage()
+// console.log(witch.attack('broom'));
+// console.log(witch.defend('metall hat'));
 

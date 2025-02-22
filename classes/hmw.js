@@ -1,4 +1,19 @@
 //--------------- 1
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 // class Car {
 //     model: string;
 //     year: number;
@@ -274,27 +289,85 @@
 // console.log(admin.addUser('umar'))
 // console.log(admin.deleteUser('ilyos'));
 // console.log(admin.deleteUser('ali'));
-var CustomerAccount = /** @class */ (function () {
-    function CustomerAccount(balance) {
-        this.balance = balance;
+// class CustomerAccount {
+//     private balance:number;
+//     constructor(balance:number){
+//         this.balance = balance
+//     }
+//     deposit(money:number):number{
+//        this.balance += money
+//        return this.balance
+//     }
+//     withdraw(money:number):number | string{
+//         if(money > this.balance){
+//             return `Insufficient budget to get ${money}`
+//         }
+//         this.balance -= money
+//         return this.balance
+//     }
+//     checkBalance(){
+//         return this.balance
+//     }
+// }
+// const customer = new CustomerAccount(2000)
+// console.log(`After deposit: `, customer.deposit(500));
+// console.log(`After withdrawal: `, customer.withdraw(800));
+// console.log(`Your total balance: `, customer.checkBalance());
+//----------------- 3
+// class Product {
+//     productName: string;
+//     price: number;
+//     category: string;
+//     constructor(productName: string, price: number, category: string) {
+//         this.productName = productName;
+//         this.price = price;
+//         this.category = category;
+//     }
+// }
+// class DiscountedProduct extends Product {
+//     discount(percent: number): number {
+//         return this.price * (1 - percent / 100);
+//     }
+// }
+// const product = new Product('apple', 20, 'fruit');
+// const discountedProduct = new DiscountedProduct('banana', 12, 'fruit');
+// const totalPrice = discountedProduct.discount(30);
+// console.log(`Discounted Price: ${totalPrice}`);
+//----------- 4
+var Character = /** @class */ (function () {
+    function Character() {
     }
-    CustomerAccount.prototype.deposit = function (money) {
-        this.balance += money;
-        return this.balance;
-    };
-    CustomerAccount.prototype.withdraw = function (money) {
-        if (money > this.balance) {
-            return "Insufficient budget to get ".concat(money);
-        }
-        this.balance -= money;
-        return this.balance;
-    };
-    CustomerAccount.prototype.checkBalance = function () {
-        return this.balance;
-    };
-    return CustomerAccount;
+    return Character;
 }());
-var customer = new CustomerAccount(2000);
-console.log("After deposit: ", customer.deposit(500));
-console.log("After withdrawal: ", customer.withdraw(800));
-console.log("Your total balance: ", customer.checkBalance());
+var Warrior = /** @class */ (function (_super) {
+    __extends(Warrior, _super);
+    function Warrior() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Warrior.prototype.attack = function (weapon) {
+        return "Warrior is attackimng with ".concat(weapon, " to the Mage");
+    };
+    Warrior.prototype.defend = function (shield) {
+        return "Warrior defends himself by ".concat(shield, " from Mage");
+    };
+    return Warrior;
+}(Character));
+var Mage = /** @class */ (function (_super) {
+    __extends(Mage, _super);
+    function Mage() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    Mage.prototype.attack = function (weapon) {
+        return "Mage attacks to the Warrior with ".concat(weapon);
+    };
+    Mage.prototype.defend = function (shield) {
+        return "Mage defends herself by ".concat(shield);
+    };
+    return Mage;
+}(Character));
+var brave = new Warrior();
+console.log(brave.attack('sword'));
+console.log(brave.defend('iron shield'));
+var witch = new Mage();
+console.log(witch.attack('broom'));
+console.log(witch.defend('metall hat'));
