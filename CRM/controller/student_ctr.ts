@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { Student } from "../config/database";
+import { Student } from "../models/student_model";
 import { IAddStudentDto } from "../dto/add_dto";
 import { IUpdateStudentDto } from "../dto/update_dto";
 import { Op } from "sequelize";

@@ -1,6 +1,6 @@
 import { Response, Request, NextFunction } from "express";
-import { Student, Group } from "../config/database";
-import { group } from "console";
+import { Student } from "../models/student_model";
+import { Group } from "../models/group_model";
 
 
 export const getStatistics = async(req:Request, res:Response, next:NextFunction):Promise<Response | void> => {

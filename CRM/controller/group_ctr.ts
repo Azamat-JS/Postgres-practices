@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { Group } from "../config/database";
+import { Group } from "../models/group_model";
 import { IAddGroupDto } from "../dto/add_dto";
 import { IUpdateGroupDto } from "../dto/update_dto";
 

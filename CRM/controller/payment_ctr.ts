@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { Payments } from "../config/database";
+import { Payments } from "../models/payment_model";
 import { IAddPaymentDto } from "../dto/add_dto";
 import { IUpdatePaymentDto } from "../dto/update_dto";
 
