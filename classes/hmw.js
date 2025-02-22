@@ -1,19 +1,4 @@
 //--------------- 1
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 // class Car {
 //     model: string;
 //     year: number;
@@ -59,11 +44,13 @@ var __extends = (this && this.__extends) || (function () {
 //   constructor(balance: number) {
 //     this.balance = balance;
 //   }
-//   public deposit(money: number) {
-//     return this.balance + money;
+//   public deposit(money: number):string {
+//     this.balance += money;
+//     return `${money} added to your balance your current balance: ${this.balance}`
 //   }
-//   public withdraw(money: number) {
-//     return this.balance - money;
+//   public withdraw(money: number):string {
+//     this.balance -= money;
+//     return `${money} was withdrawn from your balance your current balance: ${this.balance}`
 //   }
 // }
 // const balance = new BankAccount(4000);
@@ -174,40 +161,140 @@ var __extends = (this && this.__extends) || (function () {
 // console.log(algebra.subtract(5, 3)); 
 // console.log(algebra.multiply(5, 3)); 
 //------------- 8
-var Shape = /** @class */ (function () {
-    function Shape() {
+// abstract class Shape {
+//     abstract getArea(height:number, width:number):number;
+//     abstract getPerimeter(height:number, width:number):number;
+// }
+// class Circle extends Shape {
+//     getArea(PI: number, radius: number): number {
+//         return PI * radius * radius
+//     }
+//     getPerimeter(PI: number, radius: number): number {
+//         return PI * radius * 2
+//     }
+// }
+// class Rectangle extends Shape {
+//     getArea(height: number, width: number): number {
+//         return height * width
+//     }
+//     getPerimeter(height: number, width: number): number {
+//         return (height + width) * 2
+//     }
+// }
+// const circle = new Circle()
+// console.log(circle.getArea(3.14, 4));
+// console.log(circle.getPerimeter(3.14, 4));
+// const rectangle = new Rectangle()
+// console.log(rectangle.getArea(4, 5));
+// console.log(rectangle.getPerimeter(4, 5));
+//------------ 9
+// class Counter {
+//     private static count:number = 0;
+//     constructor(){
+//         Counter.increment();
+//     }
+//     static increment():void{
+//         Counter.count += 1
+//     }
+//     static getCount():number{
+//         return Counter.count
+//     }
+// }
+// const obj1 = new Counter()
+// console.log(Counter.getCount());
+// const obj2 = new Counter()
+// console.log(Counter.getCount());
+// const obj3 = new Counter()
+// console.log(Counter.getCount());
+//------------ 10
+// class Logger {
+//     private static count: string[] = [];
+//     static log(message: string): void {
+//       const logEntry = `[${new Date().toISOString()}] ${message}`;
+//       this.count.push(logEntry);
+//       console.log(logEntry);
+//     }
+//     static getLogs(): string[] {
+//       return this.count;
+//     }
+//   }
+//   Logger.log("Static log entry.");
+//   console.log("Logs:", Logger.getLogs());
+///////// Additional tasks
+//---------------- 1
+// class Account {
+//     accountNumber:number;
+//     holderName:string;
+//     balance:number;
+//     constructor(accountNumber:number, holderName:string, balance:number){
+//         this.accountNumber = accountNumber;
+//         this.holderName = holderName;
+//         this.balance = balance
+//     }
+//     deposit(money:number):number{
+//         this.balance += money
+//         return this.balance
+//     }
+//     withdraw(money:number):string{
+//         if(money > this.balance){
+//             return `Insufficient funds check your balance`
+//         }
+//         this.balance -= money
+//         return `Your balance decreased by ${money} current balance: ${this.balance}`
+//     }
+//     checkBalance():number{
+//         return this.balance
+//     }
+// }
+// const account = new Account(5, 'Said', 3000)
+// console.log('After deposit:', account.deposit(1000));
+// console.log('After withdrawal:', account.withdraw(1200));
+// console.log('Current balance:', account.checkBalance());
+//-------------- 2
+// class AdminAccount {
+//     username:string[] = []
+//     constructor(username:string[]){
+//         this.username = username
+//     }
+//     addUser(name:string):string[]{
+//         this.username.push(name)
+//         return this.username
+//     }
+//     deleteUser(name:string):string[] | string{
+//       const userIndex = this.username.indexOf(name)
+//       if(userIndex === -1){
+//         return `User ${name} not found`
+//       }
+//       this.username.splice(userIndex, 1)
+//       return this.username
+//     }
+// }
+// const admin = new AdminAccount(['jasur', 'ali'])
+// console.log(admin.addUser('aziz'))
+// console.log(admin.addUser('umar'))
+// console.log(admin.deleteUser('ilyos'));
+// console.log(admin.deleteUser('ali'));
+var CustomerAccount = /** @class */ (function () {
+    function CustomerAccount(balance) {
+        this.balance = balance;
     }
-    return Shape;
+    CustomerAccount.prototype.deposit = function (money) {
+        this.balance += money;
+        return this.balance;
+    };
+    CustomerAccount.prototype.withdraw = function (money) {
+        if (money > this.balance) {
+            return "Insufficient budget to get ".concat(money);
+        }
+        this.balance -= money;
+        return this.balance;
+    };
+    CustomerAccount.prototype.checkBalance = function () {
+        return this.balance;
+    };
+    return CustomerAccount;
 }());
-var Circle = /** @class */ (function (_super) {
-    __extends(Circle, _super);
-    function Circle() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Circle.prototype.getArea = function (PI, radius) {
-        return PI * radius * radius;
-    };
-    Circle.prototype.getPerimeter = function (PI, radius) {
-        return PI * radius * 2;
-    };
-    return Circle;
-}(Shape));
-var Rectangle = /** @class */ (function (_super) {
-    __extends(Rectangle, _super);
-    function Rectangle() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    Rectangle.prototype.getArea = function (height, width) {
-        return height * width;
-    };
-    Rectangle.prototype.getPerimeter = function (height, width) {
-        return (height + width) * 2;
-    };
-    return Rectangle;
-}(Shape));
-var circle = new Circle();
-console.log(circle.getArea(3.14, 4));
-console.log(circle.getPerimeter(3.14, 4));
-var rectangle = new Rectangle();
-console.log(rectangle.getArea(4, 2));
-console.log(rectangle.getPerimeter(4, 2));
+var customer = new CustomerAccount(2000);
+console.log("After deposit: ", customer.deposit(500));
+console.log("After withdrawal: ", customer.withdraw(800));
+console.log("Your total balance: ", customer.checkBalance());

@@ -57,12 +57,14 @@
 //     this.balance = balance;
 //   }
 
-//   public deposit(money: number) {
-//     return this.balance + money;
+//   public deposit(money: number):string {
+//     this.balance += money;
+//     return `${money} added to your balance your current balance: ${this.balance}`
 //   }
 
-//   public withdraw(money: number) {
-//     return this.balance - money;
+//   public withdraw(money: number):string {
+//     this.balance -= money;
+//     return `${money} was withdrawn from your balance your current balance: ${this.balance}`
 //   }
 // }
 
@@ -235,5 +237,179 @@
 // const rectangle = new Rectangle()
 // console.log(rectangle.getArea(4, 5));
 // console.log(rectangle.getPerimeter(4, 5));
+
+
+//------------ 9
+
+// class Counter {
+//     private static count:number = 0;
+
+//     constructor(){
+//         Counter.increment();
+//     }
+
+//     static increment():void{
+//         Counter.count += 1
+//     }
+//     static getCount():number{
+//         return Counter.count
+//     }
+// }
+
+// const obj1 = new Counter()
+// console.log(Counter.getCount());
+
+// const obj2 = new Counter()
+// console.log(Counter.getCount());
+
+// const obj3 = new Counter()
+// console.log(Counter.getCount());
+
+//------------ 10
+
+// class Logger {
+//     private static count: string[] = [];
+  
+//     static log(message: string): void {
+//       const logEntry = `[${new Date().toISOString()}] ${message}`;
+//       this.count.push(logEntry);
+//       console.log(logEntry);
+//     }
+  
+//     static getLogs(): string[] {
+//       return this.count;
+//     }
+//   }
+
+
+//   Logger.log("Static log entry.");
+//   console.log("Logs:", Logger.getLogs());
+  
+
+///////// Additional tasks
+
+
+//---------------- 1
+
+// class Account {
+//     accountNumber:number;
+//     holderName:string;
+//     balance:number;
+    
+//     constructor(accountNumber:number, holderName:string, balance:number){
+//         this.accountNumber = accountNumber;
+//         this.holderName = holderName;
+//         this.balance = balance
+//     }
+
+//     deposit(money:number):number{
+//         this.balance += money
+//         return this.balance
+//     }
+
+//     withdraw(money:number):string{
+//         if(money > this.balance){
+//             return `Insufficient funds check your balance`
+            
+//         }
+//         this.balance -= money
+//         return `Your balance decreased by ${money} current balance: ${this.balance}`
+//     }
+
+//     checkBalance():number{
+//         return this.balance
+//     }
+// }
+
+// const account = new Account(5, 'Said', 3000)
+// console.log('After deposit:', account.deposit(1000));
+// console.log('After withdrawal:', account.withdraw(1200));
+// console.log('Current balance:', account.checkBalance());
+
+//-------------- 2
+
+// class AdminAccount {
+//     username:string[] = []
+    
+//     constructor(username:string[]){
+//         this.username = username
+//     }
+    
+//     addUser(name:string):string[]{
+//         this.username.push(name)
+//         return this.username
+//     }
+
+//     deleteUser(name:string):string[] | string{
+//       const userIndex = this.username.indexOf(name)
+//       if(userIndex === -1){
+//         return `User ${name} not found`
+//       }
+//       this.username.splice(userIndex, 1)
+//       return this.username
+//     }
+// }
+
+// const admin = new AdminAccount(['jasur', 'ali'])
+// console.log(admin.addUser('aziz'))
+// console.log(admin.addUser('umar'))
+// console.log(admin.deleteUser('ilyos'));
+// console.log(admin.deleteUser('ali'));
+
+// class CustomerAccount {
+//     private balance:number;
+//     constructor(balance:number){
+//         this.balance = balance
+//     }
+
+//     deposit(money:number):number{
+//        this.balance += money
+//        return this.balance
+//     }
+
+//     withdraw(money:number):number | string{
+//         if(money > this.balance){
+//             return `Insufficient budget to get ${money}`
+//         }
+//         this.balance -= money
+//         return this.balance
+//     }
+
+//     checkBalance(){
+//         return this.balance
+//     }
+// }
+
+// const customer = new CustomerAccount(2000)
+// console.log(`After deposit: `, customer.deposit(500));
+// console.log(`After withdrawal: `, customer.withdraw(800));
+// console.log(`Your total balance: `, customer.checkBalance());
+
+//----------------- 3
+
+class Product {
+    productName: string;
+    price: number;
+    category: string;
+
+    constructor(productName: string, price: number, category: string) {
+        this.productName = productName;
+        this.price = price;
+        this.category = category;
+    }
+}
+
+class DiscountedProduct extends Product {
+    discount(percent: number): number {
+        return this.price * (1 - percent / 100);
+    }
+}
+
+const product = new Product('apple', 20, 'fruit');
+const discountedProduct = new DiscountedProduct('banana', 12, 'fruit');
+const totalPrice = discountedProduct.discount(30);
+console.log(`Discounted Price: ${totalPrice}`);
+
+
 
 
