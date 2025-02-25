@@ -1,0 +1,21 @@
+{
+  "name": "10-hmw",
+  "version": "1.0.0",
+  "main": "home.js",
+  "scripts": {
+    "dev": "npx ts-node-dev --respawn --transpile-only bot.ts",
+    "start": "node bot.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@types/node-telegram-bot-api": "^0.64.7",
+    "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "node-telegram-bot-api": "^0.66.0",
+    "ts-node": "^10.9.2"
+  }
+}

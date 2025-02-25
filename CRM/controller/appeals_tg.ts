@@ -1,5 +1,6 @@
 import TelegramBot from 'node-telegram-bot-api'
 import TelegramAppeals from '../models/telegram_appeals'
+import { Group } from '../models/group_model'
 import dotenv from 'dotenv'
 import { Request, Response } from 'express'
 import { Op } from 'sequelize'
@@ -28,32 +29,15 @@ bot.onText(/\/start/, (msg) => {
    bot.sendMessage(chatId, 'Bu bot CRM saytiga murojaatlar qoldirish uchun yaratilgan')
  })
  
- bot.on('message', async (msg) => {
-   const chatId = msg.chat.id;
-
-     let regex: RegExp = /^[a-zA-Z0-9!@#$%^&*()_+-{}~`, ."':;?//\|]*$/
- 
-   try {
-     if (typeof msg.text !== 'string' || !regex.test(msg.text)) {
-       return bot.sendMessage(chatId, 'Faqatgina matn kiriting');
-     }else if(msg.text && !msg.text.startsWith('/')){
-        bot.sendMessage(chatId, 'Murojaatingiz yetkazildi');
-     }
-    
-     await TelegramAppeals.create({
-       username: msg.from?.username || 'Unknown',
-       message: msg.text,
-     });
- 
-   } catch (err) {
-     console.error('Error saving message:', err);
-     bot.sendMessage(chatId, 'Xatolik yuz berdi!');
-   }
- });
+ bot.onText(/\/groups/, async (msg) => {
+  const chatId:number = msg.chat.id;
+  const groups = await Group.findAll();
+  const dataGroup = JSON.stringify(groups)
+  bot.sendMessage(chatId, `Barcha guruhlar ro'yhati: ${dataGroup}`)
+ })
 
 
-
- export const getMessage = async (req: Request, res: Response): Promise<Response | void> => {
+ export const getAppeal = async (req: Request, res: Response): Promise<Response | void> => {
    try {
      let startOfDay = new Date();
      startOfDay.setUTCHours(0, 0, 0, 0);
@@ -69,16 +53,16 @@ bot.onText(/\/start/, (msg) => {
    }
  };
 
- export const getNextTenDaysMessages = async (req: Request, res: Response): Promise<Response | void> => {
+ export const getNextTenDaysAppeals = async (req: Request, res: Response): Promise<Response | void> => {
     try {
-      const startOfDay = new Date(); // Start from today
+      const startOfDay = new Date();
       const endOfDay = new Date();
-      endOfDay.setDate(startOfDay.getDate() + 10); // 10 days from today
+      endOfDay.setDate(startOfDay.getDate() + 10); 
   
       const messages = await TelegramAppeals.findAll({
         where: {
           createdAt: {
-            [Op.between]: [startOfDay, endOfDay], // Fetch messages between today and 10 days ahead
+            [Op.between]: [startOfDay, endOfDay], 
           },
         },
       });
@@ -91,7 +75,7 @@ bot.onText(/\/start/, (msg) => {
   };
   
 
-export const getLastTenDaysMessages = async(req:Request, res:Response):Promise<Response | void> => {
+export const getLastTenDaysAppeals = async(req:Request, res:Response):Promise<Response | void> => {
    try {
       let startOfDay = new Date()
       startOfDay.setDate(startOfDay.getDate() - 10)

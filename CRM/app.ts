@@ -7,6 +7,7 @@ import groupRouter from "./routes/group_rt"
 import paymentRouter from './routes/payment_rt'
 import mainRouter from "./routes/main_rt"
 import messageRouter from "./routes/messages_rt"
+import appealRouter from "./routes/tgAppeals_rt"
 
 dotenv.config()
 const app = express()
@@ -20,6 +21,7 @@ app.use('/api/groups', groupRouter);
 app.use('/api/payments', paymentRouter);
 app.use('/api/main', mainRouter);
 app.use(messageRouter)
+app.use(appealRouter)
 
 const PORT = process.env.PORT || 4000
 
