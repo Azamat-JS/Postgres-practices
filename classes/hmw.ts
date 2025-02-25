@@ -443,3 +443,37 @@
 // const witch = new Mage()
 // console.log(witch.attack('broom'));
 // console.log(witch.defend('metall hat'));
+
+//---------------
+
+function LogMethod(target:any, propertyKey:string, descriptor:PropertyDescriptor){
+    const originalMethod = descriptor.value
+    descriptor.value = function(...args:any[]){
+        console.log(`Method ${propertyKey} called with args: ${args}`);
+        return originalMethod.apply(this, args)
+        
+    }
+}
+
+class Calculator {
+    @LogMethod
+    add(a:number, b:number){
+        return a + b
+    }
+}
+
+const calc = new Calculator()
+console.log(calc.add(3, 5));
+
+//------------- Parameter decorator
+
+// function LogParameter(target:any, propertyKey:string, parameterIndex:string){
+//  console.log(`Parameter in ${propertyKey} at index ${parameterIndex} is being logged`);
+// }
+
+// class User{
+//     greet(@LogParameter message:string):void{
+//        console.log(message);
+       
+//     }
+// }

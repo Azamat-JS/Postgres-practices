@@ -33,10 +33,6 @@ var __esDecorate = (this && this.__esDecorate) || function (ctor, descriptorIn, 
     if (target) Object.defineProperty(target, contextIn.name, descriptor);
     done = true;
 };
-var __setFunctionName = (this && this.__setFunctionName) || function (f, name, prefix) {
-    if (typeof name === "symbol") name = name.description ? "[".concat(name.description, "]") : "";
-    return Object.defineProperty(f, "name", { configurable: true, value: prefix ? "".concat(prefix, " ", name) : name });
-};
 // class Car {
 //     model: string;
 //     year: number;
@@ -383,48 +379,38 @@ var __setFunctionName = (this && this.__setFunctionName) || function (f, name, p
 // const witch = new Mage()
 // console.log(witch.attack('broom'));
 // console.log(witch.defend('metall hat'));
-function logClass(constructor) {
-    console.log("Class ".concat(constructor.name, " initialized"));
-}
-function logMethod(target, propertyKey, descriptor) {
+//---------------
+function LogMethod(target, propertyKey, descriptor) {
     var originalMethod = descriptor.value;
     descriptor.value = function () {
         var args = [];
         for (var _i = 0; _i < arguments.length; _i++) {
             args[_i] = arguments[_i];
         }
-        console.log("Method ".concat(propertyKey, " called with:"), args);
+        console.log("Method ".concat(propertyKey, " called with args: ").concat(args));
         return originalMethod.apply(this, args);
     };
-    return descriptor;
 }
-var School = function () {
-    var _classDecorators = [logClass];
-    var _classDescriptor;
-    var _classExtraInitializers = [];
-    var _classThis;
+var Calculator = function () {
+    var _a;
     var _instanceExtraInitializers = [];
-    var _students_decorators;
-    var School = _classThis = /** @class */ (function () {
-        function School_1() {
-            __runInitializers(this, _instanceExtraInitializers);
-        }
-        School_1.prototype.students = function (name, age) {
-            return [name, age];
-        };
-        return School_1;
-    }());
-    __setFunctionName(_classThis, "School");
-    (function () {
-        var _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(null) : void 0;
-        _students_decorators = [logMethod];
-        __esDecorate(_classThis, null, _students_decorators, { kind: "method", name: "students", static: false, private: false, access: { has: function (obj) { return "students" in obj; }, get: function (obj) { return obj.students; } }, metadata: _metadata }, null, _instanceExtraInitializers);
-        __esDecorate(null, _classDescriptor = { value: _classThis }, _classDecorators, { kind: "class", name: _classThis.name, metadata: _metadata }, null, _classExtraInitializers);
-        School = _classThis = _classDescriptor.value;
-        if (_metadata) Object.defineProperty(_classThis, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
-        __runInitializers(_classThis, _classExtraInitializers);
-    })();
-    return School = _classThis;
+    var _add_decorators;
+    return _a = /** @class */ (function () {
+            function Calculator() {
+                __runInitializers(this, _instanceExtraInitializers);
+            }
+            Calculator.prototype.add = function (a, b) {
+                return a + b;
+            };
+            return Calculator;
+        }()),
+        (function () {
+            var _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(null) : void 0;
+            _add_decorators = [LogMethod];
+            __esDecorate(_a, null, _add_decorators, { kind: "method", name: "add", static: false, private: false, access: { has: function (obj) { return "add" in obj; }, get: function (obj) { return obj.add; } }, metadata: _metadata }, null, _instanceExtraInitializers);
+            if (_metadata) Object.defineProperty(_a, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
+        })(),
+        _a;
 }();
-var school = new School();
-console.log(school.students('John', 20));
+var calc = new Calculator();
+console.log(calc.add(3, 5));

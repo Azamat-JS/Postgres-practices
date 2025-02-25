@@ -59,7 +59,7 @@ bot.onText(/\/start/, (msg) => {
      startOfDay.setUTCHours(0, 0, 0, 0);
  
      let message = await TelegramMessage.findAll({
-       where: { createdAt: { [Op.gte]: startOfDay } } // ✅ fixed typo here
+       where: { createdAt: { [Op.gte]: startOfDay } }
      });
  
      return res.status(200).json(message);
