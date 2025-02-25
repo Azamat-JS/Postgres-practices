@@ -443,4 +443,3 @@
 // const witch = new Mage()
 // console.log(witch.attack('broom'));
 // console.log(witch.defend('metall hat'));
-
