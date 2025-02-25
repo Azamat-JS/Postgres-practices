@@ -1,13 +1,13 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database";
 
-export class TelegramMessage extends Model {
+export class TelegramAppeals extends Model {
   public id!: number;
   public username!: string;
   public message!: string;
 }
 
-TelegramMessage.init(
+TelegramAppeals.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -25,9 +25,9 @@ TelegramMessage.init(
   },
   {
     sequelize,
-    tableName: "messages",
-    modelName: "Message",
+    tableName: "appeals",
+    modelName: "Appeal",
     timestamps: true,
-  }
-);
-export default TelegramMessage
+  })
+
+  export default TelegramAppeals

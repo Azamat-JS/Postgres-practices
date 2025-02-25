@@ -69,6 +69,27 @@ bot.onText(/\/start/, (msg) => {
    }
  };
  
+ export const getNextTenDaysMessages = async (req: Request, res: Response): Promise<Response | void> => {
+  try {
+    const startOfDay = new Date(); // Start from today
+    const endOfDay = new Date();
+    endOfDay.setDate(startOfDay.getDate() + 10); // 10 days from today
+
+    const messages = await TelegramMessage.findAll({
+      where: {
+        createdAt: {
+          [Op.between]: [startOfDay, endOfDay], // Fetch messages between today and 10 days ahead
+        },
+      },
+    });
+
+    return res.status(200).json(messages);
+  } catch (error) {
+    console.error('Error fetching messages:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
 
 export const getLastTenDaysMessages = async(req:Request, res:Response):Promise<Response | void> => {
    try {
