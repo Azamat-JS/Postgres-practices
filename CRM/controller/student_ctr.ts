@@ -163,8 +163,8 @@ const search = async (
     next: NextFunction
 ): Promise<Response | void> => {
     try {
-        const { student_name } = req.query;
-        if (!student_name || typeof student_name !== "string") {
+        const  student_name  = req.query?.student_name as string | undefined;
+        if (!student_name) {
             return res
                 .status(400)
                 .json({ msg: "Invalid or missing student_name parameter." });
@@ -176,6 +176,13 @@ const search = async (
                 },
             },
         });
+
+        if (!searchedStudent) {
+            return res.status(404).json({ msg: "Student not found." });
+        }
+        
+
+        return res.status(200).json(searchedStudent)
     } catch (error) {
         next(error);
     }
