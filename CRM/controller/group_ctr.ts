@@ -3,6 +3,8 @@ import { Group } from "../models/group_model";
 import { IAddGroupDto } from "../dto/add_dto";
 import { IUpdateGroupDto } from "../dto/update_dto";
 import { Op } from "sequelize";
+import { Student } from "../models/student_model";
+import { Attendances } from "../models/attendance_model";
 
 export class GroupsManager {
   static async createGroup(
@@ -11,12 +13,13 @@ export class GroupsManager {
     next: NextFunction
   ): Promise<Response | void> {
     try {
-      const { subject, days, time, teacher_name, teacher_phone } =
+      const { subject, days, startTime, endTime, teacher_name, teacher_phone } =
         req.body as IAddGroupDto;
       const newGroup = await Group.create({
         subject,
         days,
-        time,
+        startTime,
+        endTime,
         teacher_name,
         teacher_phone,
       });
@@ -83,13 +86,13 @@ export class GroupsManager {
 
   static async updateGroup(req: Request, res: Response, next: NextFunction) {
     try {
-      const { subject, days, time, teacher_name, teacher_phone } =
+      const { subject, days, startTime, endTime, teacher_name, teacher_phone } =
         req.body as IUpdateGroupDto;
       const group = await Group.findByPk(+req.params.id as number);
       if (!group) {
         return next(res.status(404).json({ msg: "Group not found" }));
       }
-      group.update({ subject, days, time, teacher_name, teacher_phone });
+      group.update({ subject, days, startTime, endTime, teacher_name, teacher_phone });
       return res.status(200).json(group);
     } catch (error) {
       next(error);
@@ -104,7 +107,9 @@ export class GroupsManager {
       }
       await Group.destroy({ where: { id: +req.params.id as number } });
       return res.status(200).json({ msg: "The group deleted successfully" });
-    } catch (error) {}
+    } catch (error) {
+      next(error)
+    }
   }
 
   static async search(req: Request, res: Response, next: NextFunction):Promise<Response | void> {
@@ -132,5 +137,42 @@ export class GroupsManager {
     } catch (error) {
       next(error);
     }
+  }
+
+  static async attendances(req:Request, res:Response, next: NextFunction):Promise<Response | void> {
+    try {
+     const {body: {attendances}, params: {id}} = req
+     const group = await Group.findByPk(parseInt(id, 10))
+
+     if(!group){
+      return res.status(404).json({message: 'Group not found!'})
+     }
+    let now = new Date()
+    let current_time = now.toTimeString().split(' ')[0]
+     
+    if(group.startTime > current_time || group.endTime < current_time){
+      return res.status(400).json({message: 'You can not register students at this time!'})
+    }
+    console.log(attendances);
+    
+    let result = []
+    for(let item of attendances){
+      let student = await Student.findByPk(+item.studentId)
+      if(!student){
+        return res.status(404).json({message: 'Student not found'})
+      }
+      if(item.present){
+         await Attendances.create({studentId: item.studentId})
+         result.push({studentId: item.studentId, status: 'Came'})
+      }else{
+        result.push({studentId: item.studentId, status: 'Not come'})
+      }
+    }
+
+    res.status(200).json(result)
+   } catch (error) {
+    next(error)
+   }
+    
   }
 }

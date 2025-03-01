@@ -1,5 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database";
+import { Date } from "mongoose";
 
 export class Student extends Model {
     public id!: number;
@@ -8,6 +9,8 @@ export class Student extends Model {
     public subject!: string;
     public parents_name!: string;
     public parents_phone!: string;
+    public joinedAt!: Date;
+    public leftAt!: Date | null
 }
 
 Student.init(
@@ -37,6 +40,10 @@ Student.init(
             type:DataTypes.STRING,
             allowNull:true,
         },
+        leftAt: {
+            type: DataTypes.DATE,
+            allowNull: true
+        }
     },
     {
         sequelize,

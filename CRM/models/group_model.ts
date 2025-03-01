@@ -5,7 +5,8 @@ export class Group extends Model {
     public id!: number;
     public subject!: string;
     public days!:string;
-    public time!:string;
+    public startTime!:string;
+    public endTime!:string;
     public teacher_name!:string;
     public teacher_phone!:string;
 }
@@ -26,7 +27,11 @@ Group.init(
             type:DataTypes.STRING,
             allowNull:true,
         },
-        time:{
+        startTime:{
+            type:DataTypes.STRING,
+            allowNull:false,
+        },
+        endTime:{
             type:DataTypes.STRING,
             allowNull:false,
         },

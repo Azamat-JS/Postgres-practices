@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { Student } from "../models/student_model";
-import { DropOutList } from "../models/drop_out_pupils";
 import { IAddStudentDto } from "../dto/add_dto";
 import { IUpdateStudentDto } from "../dto/update_dto";
 import { Op } from "sequelize";
+import sequelize from "../config/database";
 
 const addStudent = async (
     req: Request,
@@ -118,9 +118,54 @@ const updateStudent = async (
             student_phone,
             subject,
             parents_name,
-            parents_phone,
+            parents_phone
         });
         return res.status(200).json(student);
+    } catch (error: any) {
+        next(error);
+    }
+};
+
+const leftStudent = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<Response | void> => {
+    try {
+
+        const student = await Student.findByPk(+req.params.id as number);
+        if (!student) {
+            return next(res.status(404).json({ msg: "Student not found" }));
+        }
+        student.update({
+            ...student,
+            leftAt: new Date()
+        });
+        return res.status(200).json(student);
+    } catch (error: any) {
+        next(error);
+    }
+};
+
+const getMonthlyStatistics = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<Response | void> => {
+    try {
+      const statistics = await Student.findAll({
+        attributes: [
+            [sequelize.fn('DATE_TRUNC', 'month', sequelize.col('createdAt')), 'month'],
+            [sequelize.fn('COUNT', sequelize.col('id')), 'allStudents'],
+            [
+                sequelize.literal('SUM(CASE WHEN \"leftAt\" IS NOT NULL THEN 1 ELSE 0 END)'),
+                'allLeftStudents'
+            ]
+        ],
+        group: ["month"],
+        order: [[sequelize.literal('month'),'ASC']]
+      })
+      res.status(200).json(statistics)
     } catch (error: any) {
         next(error);
     }
@@ -136,19 +181,11 @@ const deleteStudent = async (
         if (!student) {
             return next(res.status(404).json({ msg: "Student not found" }));
         }
-        
-        await DropOutList.create({
-         student_name: student.student_name, 
-         student_phone: student.student_phone
-     })
-     console.log("Saving to DropOutList:", student.student_name, student.student_phone);
-
 
      const deletedRows = await Student.destroy({ where: { id: +req.params.id } });
      if (deletedRows === 0) {
          return res.status(500).json({ msg: "Failed to delete student" });
      }
-     console.log("Deleted Rows:", deletedRows);
 
         return res.status(200).json({ msg: "Student deleted successfully" });
 
@@ -163,16 +200,16 @@ const search = async (
     next: NextFunction
 ): Promise<Response | void> => {
     try {
-        const  student_name  = req.query?.student_name as string | undefined;
-        if (!student_name) {
+        const  {name}  = req.query
+        if (!name) {
             return res
                 .status(400)
-                .json({ msg: "Invalid or missing student_name parameter." });
+                .json({ msg: "Invalid or missing name parameter." });
         }
-        const searchedStudent = await Student.findOne({
+        const searchedStudent = await Student.findAll({
             where: {
                 student_name: {
-                    [Op.iLike]: `%${student_name}%`,
+                    [Op.iLike]: `%${name}%`,
                 },
             },
         });
@@ -195,4 +232,6 @@ export {
     updateStudent,
     deleteStudent,
     search,
+    leftStudent,
+    getMonthlyStatistics
 };

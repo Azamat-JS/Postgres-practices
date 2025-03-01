@@ -5,8 +5,6 @@ import mongoose from "mongoose";
 import { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
 import { DatabaseError, ValidationError as SequelizeValidationError } from "sequelize";
 import { QueryFailedError } from "typeorm";
-import rateLimit from "express-rate-limit";
-import csrf from "csurf";
 
 export default (err: any, req: Request, res: Response, next: NextFunction) => {
   console.error("Error Middleware Triggered:", err); // Xatolikni logga yozish

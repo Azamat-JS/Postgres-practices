@@ -9,7 +9,8 @@ export interface IUpdateStudentDto {
 export interface IUpdateGroupDto {
     subject?:string;
     days?:string;
-    time?:string;
+    startTime?:string;
+    endTime?:string;
     teacher_name?:string;
     teacher_phone?:string;
 }
